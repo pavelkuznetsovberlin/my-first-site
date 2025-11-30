@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 
 type LanguageCode = "RU" | "EN" | "DE";
+type MenuEntry = { label: string; href?: string };
 
 const biography: Record<LanguageCode, string[]> = {
   DE: [
@@ -29,6 +30,30 @@ const biography: Record<LanguageCode, string[]> = {
   ],
 };
 
+const menuItems: Record<LanguageCode, MenuEntry[]> = {
+  DE: [
+    { label: "Pavel Kuznetsov – Pianist" },
+    { label: "Pavel Kuznetsov – Komponist" },
+    { label: "Pavel Kuznetsov – Produzent", href: "https://pavelsmusic.com" },
+    { label: "Pavel Kuznetsov – Rapper" },
+    { label: "Pavel Kuznetsov – Pisun" },
+  ],
+  EN: [
+    { label: "Pavel Kuznetsov – Pianist" },
+    { label: "Pavel Kuznetsov – Composer" },
+    { label: "Pavel Kuznetsov – Producer", href: "https://pavelsmusic.com" },
+    { label: "Pavel Kuznetsov – Rapper" },
+    { label: "Pavel Kuznetsov – Pisun" },
+  ],
+  RU: [
+    { label: "Павел Кузнецов — Пианист" },
+    { label: "Павел Кузнецов — Композитор" },
+    { label: "Павел Кузнецов — Продюсер", href: "https://pavelsmusic.com" },
+    { label: "Павел Кузнецов — Рэпер" },
+    { label: "Павел Кузнецов — Писюн" },
+  ],
+};
+
 const languages: { code: LanguageCode; label: string }[] = [
   { code: "RU", label: "Русский" },
   { code: "EN", label: "English" },
@@ -37,12 +62,64 @@ const languages: { code: LanguageCode; label: string }[] = [
 
 export default function Home() {
   const [active, setActive] = useState<LanguageCode>("RU");
+  const [menuOpen, setMenuOpen] = useState(false);
   const paragraphs = biography[active];
+  const menu = menuItems[active];
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-black text-white">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,rgba(255,255,255,0.08),transparent_35%),radial-gradient(circle_at_80%_0,rgba(255,255,255,0.08),transparent_30%)]" />
       <div className="pointer-events-none absolute left-0 right-0 top-10 h-24 opacity-50 bg-[repeating-linear-gradient(90deg,#ffffff_0,#ffffff_9%,#0a0a0a_9%,#0a0a0a_11%,#ffffff_11%,#ffffff_20%,#0a0a0a_20%,#0a0a0a_22%)]" />
+
+      <button
+        type="button"
+        onClick={() => setMenuOpen((prev) => !prev)}
+        aria-expanded={menuOpen}
+        aria-controls="pavel-menu"
+        className="fixed left-6 top-6 z-30 flex h-12 w-12 items-center justify-center rounded-full border border-white/35 bg-white/10 text-[10px] uppercase tracking-[0.25em] transition hover:border-white hover:bg-white/20"
+      >
+        <span className="sr-only">Toggle menu</span>
+        <span className="flex flex-col items-center justify-center gap-1.5">
+          <span className="block h-0.5 w-6 rounded-full bg-white" />
+          <span className="block h-0.5 w-6 rounded-full bg-white" />
+          <span className="block h-0.5 w-6 rounded-full bg-white" />
+        </span>
+      </button>
+
+      <div
+        className={`fixed inset-0 z-20 transition duration-500 ${
+          menuOpen ? "pointer-events-auto bg-black/60 backdrop-blur-sm" : "pointer-events-none bg-black/0"
+        }`}
+        onClick={() => setMenuOpen(false)}
+      >
+        <div
+          id="pavel-menu"
+          className={`absolute left-0 top-0 h-full w-80 max-w-[80vw] border-r border-white/15 bg-black/90 p-8 shadow-[0_20px_80px_rgba(0,0,0,0.45)] transition-transform duration-500 ${
+            menuOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
+          onClick={(event) => event.stopPropagation()}
+        >
+          <p className="text-xs uppercase tracking-[0.35em] text-zinc-400">Menu</p>
+          <ul className="mt-6 space-y-4 text-lg leading-relaxed text-zinc-100">
+            {menu.map((item) => (
+              <li key={item.label} className="border-b border-white/10 pb-3">
+                {item.href ? (
+                  <a
+                    href={item.href}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="transition hover:text-white hover:underline"
+                  >
+                    {item.label}
+                  </a>
+                ) : (
+                  item.label
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
 
       <main className="relative z-10 mx-auto flex max-w-6xl flex-col gap-12 px-6 py-16 md:py-24">
         <header className="grid gap-10 md:grid-cols-[1.1fr_1fr] md:items-center">
