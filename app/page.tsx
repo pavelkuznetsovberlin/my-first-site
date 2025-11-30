@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 type LanguageCode = "RU" | "EN" | "DE";
@@ -71,7 +71,7 @@ function isLanguageCode(value: string | null): value is LanguageCode {
   return value === "RU" || value === "EN" || value === "DE";
 }
 
-export default function Home() {
+function HomeContent() {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
@@ -320,5 +320,13 @@ export default function Home() {
         })}
       </main>
     </div>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <HomeContent />
+    </Suspense>
   );
 }
