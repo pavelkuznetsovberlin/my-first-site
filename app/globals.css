@@ -4,6 +4,8 @@
   --background: #000000;
   --foreground: #f6f6f6;
   --accent: #ffffff;
+  --font-geist-sans: "Helvetica Neue", Arial, system-ui, sans-serif;
+  --font-geist-mono: "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
 @theme inline {

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 type LanguageCode = "RU" | "EN" | "DE";
 type MenuEntry = { label: string; href?: string };
@@ -63,8 +63,39 @@ const languages: { code: LanguageCode; label: string }[] = [
 export default function Home() {
   const [active, setActive] = useState<LanguageCode>("RU");
   const [menuOpen, setMenuOpen] = useState(false);
+  const [visibleSections, setVisibleSections] = useState<Record<number, boolean>>({});
+  const sectionRefs = useRef<(HTMLElement | null)[]>([]);
   const paragraphs = biography[active];
   const menu = menuItems[active];
+
+  const bioChunks = useMemo(() => {
+    const perSection = Math.ceil(paragraphs.length / 3);
+    const chunks: string[][] = [];
+    for (let i = 0; i < paragraphs.length; i += perSection) {
+      chunks.push(paragraphs.slice(i, i + perSection));
+    }
+    while (chunks.length < 3) {
+      chunks.push([]);
+    }
+    return chunks.slice(0, 3);
+  }, [paragraphs]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const idx = Number(entry.target.getAttribute("data-section"));
+          if (entry.isIntersecting) {
+            setVisibleSections((prev) => (prev[idx] ? prev : { ...prev, [idx]: true }));
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    sectionRefs.current.forEach((el) => el && observer.observe(el));
+    return () => observer.disconnect();
+  }, [bioChunks]);
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-black text-white">
@@ -175,18 +206,58 @@ export default function Home() {
                     Solo, chamber music, ballet collaborations and original compositions.
                   </p>
                 </div>
-                <div className="rounded-2xl border border-white/15 bg-white/5 p-6 shadow-[0_24px_60px_-36px_rgba(0,0,0,0.9)] backdrop-blur">
-                  <p className="text-sm uppercase tracking-[0.35em] text-zinc-300">Biography</p>
-                  <div className="mt-4 space-y-4 text-base leading-relaxed text-zinc-100">
-                    {paragraphs.map((para) => (
-                      <p key={para}>{para}</p>
-                    ))}
-                  </div>
-                </div>
               </div>
             </div>
           </div>
         </section>
+
+        {bioChunks.map((chunk, index) => {
+          const photoSrc = `/pavel-${index + 1}.jpg`;
+          const alignRight = index % 2 === 1;
+          const visible = visibleSections[index];
+
+          return (
+            <section
+              key={photoSrc}
+              data-section={index}
+              ref={(el) => {
+                sectionRefs.current[index] = el;
+              }}
+              className="relative w-full overflow-hidden bg-black"
+            >
+              <div className="relative w-full min-h-[90vh] md:min-h-[110vh]">
+                <Image
+                  src={photoSrc}
+                  alt={`Pavel Kuznetsov portrait ${index + 1}`}
+                  fill
+                  priority={index === 0}
+                  className="object-cover"
+                />
+                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_25%,rgba(255,255,255,0.08),transparent_45%),radial-gradient(circle_at_80%_70%,rgba(255,255,255,0.06),transparent_50%)]" />
+                <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/35 to-black/80" />
+
+                <div
+                  className={`absolute bottom-10 left-6 right-6 md:bottom-16 md:left-12 md:right-12 lg:max-w-3xl ${
+                    alignRight ? "md:ml-auto" : ""
+                  }`}
+                >
+                  <div
+                    className={`rounded-2xl border border-white/15 bg-white/5 p-6 shadow-[0_24px_60px_-36px_rgba(0,0,0,0.9)] backdrop-blur transition duration-700 ease-out ${
+                      visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-6 opacity-0"
+                    }`}
+                  >
+                    <p className="text-sm uppercase tracking-[0.35em] text-zinc-300">Biography</p>
+                    <div className="mt-4 space-y-4 text-base leading-relaxed text-zinc-100">
+                      {chunk.map((para) => (
+                        <p key={para}>{para}</p>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          );
+        })}
       </main>
     </div>
   );
