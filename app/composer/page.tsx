@@ -142,12 +142,13 @@ export default function ComposerPage() {
             }}
             className="relative w-full overflow-hidden bg-black"
           >
-            <div className="relative w-full min-h-[80vh] md:min-h-[100vh]">
+            <div className="relative w-full min-h-[85vh] md:min-h-[110vh]">
               <Image
                 src={photoSrc}
                 alt="Pavel Kuznetsov composer"
                 fill
-                className="object-cover"
+                className="object-contain md:object-cover"
+                style={{ objectPosition: "center top" }}
                 priority={index === 0}
               />
               <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/35 to-black/80" />

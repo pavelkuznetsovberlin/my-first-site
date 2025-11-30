@@ -37,18 +37,27 @@ const menuItems: Record<LanguageCode, MenuEntry[]> = {
     { label: "Pavel Kuznetsov – Komponist", href: "/composer" },
     { label: "Pavel Kuznetsov – Produzent", href: "https://www.pavelsmusic.com" },
     { label: "Pavel Kuznetsov – Andere", href: "/rapper" },
+    { label: "Zusammenarbeit" },
+    { label: "Kontakt zu Pavel Kuznetsov" },
+    { label: "Unterstütze Pavel Kuznetsov" },
   ],
   EN: [
     { label: "Pavel Kuznetsov – Pianist" },
     { label: "Pavel Kuznetsov – Composer", href: "/composer" },
     { label: "Pavel Kuznetsov – Producer", href: "https://www.pavelsmusic.com" },
     { label: "Pavel Kuznetsov – Other", href: "/rapper" },
+    { label: "Collaboration" },
+    { label: "Contact Pavel Kuznetsov" },
+    { label: "Support Pavel Kuznetsov" },
   ],
   RU: [
     { label: "Павел Кузнецов — Пианист" },
     { label: "Павел Кузнецов — Композитор", href: "/composer" },
     { label: "Павел Кузнецов — Продюсер", href: "https://www.pavelsmusic.com" },
     { label: "Павел Кузнецов — Другое", href: "/rapper" },
+    { label: "Сотрудничество" },
+    { label: "Связаться с Павлом Кузнецовым" },
+    { label: "Поддержать Павла Кузнецова" },
   ],
 };
 
