@@ -35,21 +35,21 @@ const menuItems: Record<LanguageCode, MenuEntry[]> = {
     { label: "Pavel Kuznetsov – Pianist" },
     { label: "Pavel Kuznetsov – Komponist" },
     { label: "Pavel Kuznetsov – Produzent", href: "https://www.pavelsmusic.com" },
-    { label: "Pavel Kuznetsov – Rapper" },
+    { label: "Pavel Kuznetsov – Rapper", href: "/rapper" },
     { label: "Pavel Kuznetsov – Pisun" },
   ],
   EN: [
     { label: "Pavel Kuznetsov – Pianist" },
     { label: "Pavel Kuznetsov – Composer" },
     { label: "Pavel Kuznetsov – Producer", href: "https://www.pavelsmusic.com" },
-    { label: "Pavel Kuznetsov – Rapper" },
+    { label: "Pavel Kuznetsov – Rapper", href: "/rapper" },
     { label: "Pavel Kuznetsov – Pisun" },
   ],
   RU: [
     { label: "Павел Кузнецов — Пианист" },
     { label: "Павел Кузнецов — Композитор" },
     { label: "Павел Кузнецов — Продюсер", href: "https://www.pavelsmusic.com" },
-    { label: "Павел Кузнецов — Рэпер" },
+    { label: "Павел Кузнецов — Рэпер", href: "/rapper" },
     { label: "Павел Кузнецов — Писюн" },
   ],
 };
@@ -101,22 +101,27 @@ export default function Home() {
         >
           <p className="text-xs uppercase tracking-[0.35em] text-zinc-400">Menu</p>
           <ul className="mt-6 space-y-4 text-lg leading-relaxed text-zinc-100">
-            {menu.map((item) => (
-              <li key={item.label} className="border-b border-white/10 pb-3">
-                {item.href ? (
-                  <a
-                    href={item.href}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    className="transition hover:text-white hover:underline"
-                  >
-                    {item.label}
-                  </a>
-                ) : (
-                  item.label
-                )}
-              </li>
-            ))}
+            {menu.map((item) => {
+              const href = item.href === "/rapper" ? `/rapper?lang=${active.toLowerCase()}` : item.href;
+              const isExternal = href?.startsWith("http");
+
+              return (
+                <li key={item.label} className="border-b border-white/10 pb-3">
+                  {href ? (
+                    <a
+                      href={href}
+                      target={isExternal ? "_blank" : undefined}
+                      rel={isExternal ? "noreferrer noopener" : undefined}
+                      className="transition hover:text-white hover:underline"
+                    >
+                      {item.label}
+                    </a>
+                  ) : (
+                    item.label
+                  )}
+                </li>
+              );
+            })}
           </ul>
         </div>
       </div>
