@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 type LanguageCode = "RU" | "EN" | "DE";
 type StreamingLink = { label: string; href: string };
@@ -28,9 +28,9 @@ const streamingLinks: StreamingLink[] = [
 ];
 
 const languages: { code: LanguageCode; label: string }[] = [
-  { code: "RU", label: "Русский" },
   { code: "EN", label: "English" },
   { code: "DE", label: "Deutsch" },
+  { code: "RU", label: "Русский" },
 ];
 
 function isLanguageCode(value: string | null): value is LanguageCode {
@@ -39,9 +39,11 @@ function isLanguageCode(value: string | null): value is LanguageCode {
 
 export default function RapperClient() {
   const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
   const initialLang = useMemo(() => {
     const lang = searchParams.get("lang")?.toUpperCase() ?? null;
-    return isLanguageCode(lang) ? lang : "RU";
+    return isLanguageCode(lang) ? lang : "EN";
   }, [searchParams]);
 
   const [active, setActive] = useState<LanguageCode>(initialLang);
@@ -57,6 +59,13 @@ export default function RapperClient() {
 
   const heading = headings[active];
   const streamHeading = streamingTitle[active];
+
+  const handleLanguageChange = (lang: LanguageCode) => {
+    setActive(lang);
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("lang", lang.toLowerCase());
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+  };
 
   return (
     <div className="relative min-h-screen bg-black text-white">
@@ -80,7 +89,7 @@ export default function RapperClient() {
                   <button
                     key={lang.code}
                     type="button"
-                    onClick={() => setActive(lang.code)}
+                    onClick={() => handleLanguageChange(lang.code)}
                     aria-pressed={activeBtn}
                     className={`rounded-full border px-3 py-1.5 text-xs uppercase tracking-[0.25em] transition ${
                       activeBtn

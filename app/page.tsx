@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 type LanguageCode = "RU" | "EN" | "DE";
 type MenuEntry = { label: string; href?: string };
@@ -33,41 +34,66 @@ const biography: Record<LanguageCode, string[]> = {
 const menuItems: Record<LanguageCode, MenuEntry[]> = {
   DE: [
     { label: "Pavel Kuznetsov – Pianist" },
-    { label: "Pavel Kuznetsov – Komponist" },
+    { label: "Pavel Kuznetsov – Komponist", href: "/composer" },
     { label: "Pavel Kuznetsov – Produzent", href: "https://www.pavelsmusic.com" },
-    { label: "Pavel Kuznetsov – Rapper", href: "/rapper" },
-    { label: "Pavel Kuznetsov – Pisun" },
+    { label: "Pavel Kuznetsov – Andere", href: "/rapper" },
   ],
   EN: [
     { label: "Pavel Kuznetsov – Pianist" },
-    { label: "Pavel Kuznetsov – Composer" },
+    { label: "Pavel Kuznetsov – Composer", href: "/composer" },
     { label: "Pavel Kuznetsov – Producer", href: "https://www.pavelsmusic.com" },
-    { label: "Pavel Kuznetsov – Rapper", href: "/rapper" },
-    { label: "Pavel Kuznetsov – Pisun" },
+    { label: "Pavel Kuznetsov – Other", href: "/rapper" },
   ],
   RU: [
     { label: "Павел Кузнецов — Пианист" },
-    { label: "Павел Кузнецов — Композитор" },
+    { label: "Павел Кузнецов — Композитор", href: "/composer" },
     { label: "Павел Кузнецов — Продюсер", href: "https://www.pavelsmusic.com" },
-    { label: "Павел Кузнецов — Рэпер", href: "/rapper" },
-    { label: "Павел Кузнецов — Писюн" },
+    { label: "Павел Кузнецов — Другое", href: "/rapper" },
   ],
 };
 
 const languages: { code: LanguageCode; label: string }[] = [
-  { code: "RU", label: "Русский" },
   { code: "EN", label: "English" },
   { code: "DE", label: "Deutsch" },
+  { code: "RU", label: "Русский" },
 ];
 
+function isLanguageCode(value: string | null): value is LanguageCode {
+  return value === "RU" || value === "EN" || value === "DE";
+}
+
 export default function Home() {
-  const [active, setActive] = useState<LanguageCode>("RU");
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const initialLang = useMemo(() => {
+    const lang = searchParams.get("lang")?.toUpperCase() ?? null;
+    return isLanguageCode(lang) ? lang : "EN";
+  }, [searchParams]);
+
+  const [active, setActive] = useState<LanguageCode>(initialLang);
   const [menuOpen, setMenuOpen] = useState(false);
   const [visibleSections, setVisibleSections] = useState<Record<number, boolean>>({});
   const sectionRefs = useRef<(HTMLElement | null)[]>([]);
   const paragraphs = biography[active];
   const menu = menuItems[active];
   const photos = useMemo(() => ["/pavel-1.jpg", "/pavel-1-rotated.jpg", "/pavel-3.jpg"], []);
+
+  useEffect(() => {
+    const lang = searchParams.get("lang")?.toUpperCase() ?? null;
+    if (isLanguageCode(lang) && lang !== active) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setActive(lang);
+    }
+  }, [searchParams, active]);
+
+  const handleLanguageChange = (lang: LanguageCode) => {
+    setActive(lang);
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("lang", lang.toLowerCase());
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+  };
 
   const bioChunks = useMemo(() => {
     const perSection = Math.ceil(paragraphs.length / 3);
@@ -105,14 +131,39 @@ export default function Home() {
         onClick={() => setMenuOpen((prev) => !prev)}
         aria-expanded={menuOpen}
         aria-controls="pavel-menu"
-        className="fixed left-6 top-6 z-30 flex h-12 w-12 items-center justify-center rounded-full border border-white/35 bg-white/10 text-[10px] uppercase tracking-[0.25em] transition hover:border-white hover:bg-white/20"
+        className="fixed left-1/2 top-6 z-30 flex h-20 w-32 -translate-x-1/2 items-center justify-center overflow-hidden rounded-xl shadow-[0_12px_30px_-18px_rgba(0,0,0,0.6)] transition hover:shadow-[0_16px_40px_-20px_rgba(0,0,0,0.7)]"
       >
         <span className="sr-only">Toggle menu</span>
-        <span className="flex flex-col items-center justify-center gap-1.5">
-          <span className="block h-0.5 w-6 rounded-full bg-white" />
-          <span className="block h-0.5 w-6 rounded-full bg-white" />
-          <span className="block h-0.5 w-6 rounded-full bg-white" />
-        </span>
+        <div className="relative h-full w-full">
+          <div className="absolute inset-x-3 bottom-8 grid h-9 grid-cols-10 gap-1.5">
+            {Array.from({ length: 10 }).map((_, idx) => (
+              <div
+                key={idx}
+                className="relative overflow-hidden rounded bg-white/90 text-black shadow-[inset_0_-2px_4px_rgba(0,0,0,0.35)]"
+              >
+                <div className="absolute inset-x-0 top-0 h-[35%] bg-white/65" />
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/10" />
+              </div>
+            ))}
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[45%] bg-gradient-to-t from-black/25 to-transparent" />
+          </div>
+          <div className="absolute inset-x-0 top-3 flex justify-center">
+            <div className="flex gap-2">
+              {[18, 22, 14].map((w, idx) => (
+                <div
+                  key={idx}
+                  className="rounded bg-zinc-100/85 shadow-[inset_0_-2px_4px_rgba(0,0,0,0.35)]"
+                  style={{ width: `${w}px`, height: "24px" }}
+                />
+              ))}
+            </div>
+          </div>
+          <div className="absolute inset-x-0 -bottom-1 flex justify-center">
+            <span className="text-sm uppercase tracking-[0.4em] text-white/85">
+              Menu
+            </span>
+          </div>
+        </div>
       </button>
 
       <div
@@ -131,7 +182,9 @@ export default function Home() {
           <p className="text-xs uppercase tracking-[0.35em] text-zinc-400">Menu</p>
           <ul className="mt-6 space-y-4 text-lg leading-relaxed text-zinc-100">
             {menu.map((item) => {
-              const href = item.href === "/rapper" ? `/rapper?lang=${active.toLowerCase()}` : item.href;
+              const href = item.href?.startsWith("/")
+                ? `${item.href}?lang=${active.toLowerCase()}`
+                : item.href;
               const isExternal = href?.startsWith("http");
 
               return (
@@ -169,20 +222,20 @@ export default function Home() {
             <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/45 to-black/80" />
 
             <div className="relative z-10 flex h-full flex-col justify-between px-6 py-10">
-              <div className="flex items-center justify-between gap-4">
+              <div className="flex items-start justify-between gap-4">
                 <div className="space-y-2">
                   <p className="text-xs uppercase tracking-[0.55em] text-zinc-300">Pianist</p>
                   <h1 className="text-4xl font-semibold leading-tight sm:text-5xl">Pavel Kuznetsov</h1>
                   <p className="text-lg text-zinc-200">Pianist & Composer</p>
                 </div>
-                <div className="flex flex-wrap items-center gap-3">
+                <div className="flex flex-wrap items-center gap-3 pt-24">
                   {languages.map((lang) => {
                     const activeBtn = lang.code === active;
                     return (
                       <button
                         key={lang.code}
                         type="button"
-                        onClick={() => setActive(lang.code)}
+                        onClick={() => handleLanguageChange(lang.code)}
                         aria-pressed={activeBtn}
                         className={`rounded-full border px-4 py-2 text-xs uppercase tracking-[0.3em] transition ${
                           activeBtn
