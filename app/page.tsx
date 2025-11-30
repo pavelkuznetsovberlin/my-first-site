@@ -67,6 +67,7 @@ export default function Home() {
   const sectionRefs = useRef<(HTMLElement | null)[]>([]);
   const paragraphs = biography[active];
   const menu = menuItems[active];
+  const photos = useMemo(() => ["/pavel-1.jpg", "/pavel-1-rotated.jpg", "/pavel-3.jpg"], []);
 
   const bioChunks = useMemo(() => {
     const perSection = Math.ceil(paragraphs.length / 3);
@@ -99,9 +100,6 @@ export default function Home() {
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-black text-white">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,rgba(255,255,255,0.08),transparent_35%),radial-gradient(circle_at_80%_0,rgba(255,255,255,0.08),transparent_30%)]" />
-      <div className="pointer-events-none absolute left-0 right-0 top-10 h-24 opacity-50 bg-[repeating-linear-gradient(90deg,#ffffff_0,#ffffff_9%,#0a0a0a_9%,#0a0a0a_11%,#ffffff_11%,#ffffff_20%,#0a0a0a_20%,#0a0a0a_22%)]" />
-
       <button
         type="button"
         onClick={() => setMenuOpen((prev) => !prev)}
@@ -165,7 +163,7 @@ export default function Home() {
               alt="Pavel Kuznetsov portrait"
               fill
               priority
-              className="object-contain"
+              className="object-cover"
             />
             <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_25%,rgba(255,255,255,0.08),transparent_45%),radial-gradient(circle_at_80%_70%,rgba(255,255,255,0.06),transparent_50%)]" />
             <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/45 to-black/80" />
@@ -212,7 +210,7 @@ export default function Home() {
         </section>
 
         {bioChunks.map((chunk, index) => {
-          const photoSrc = `/pavel-${index + 1}.jpg`;
+          const photoSrc = photos[index] ?? photos[0];
           const alignRight = index % 2 === 1;
           const visible = visibleSections[index];
 
