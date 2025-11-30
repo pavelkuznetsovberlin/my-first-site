@@ -126,61 +126,67 @@ export default function Home() {
         </div>
       </div>
 
-      <main className="relative z-10 mx-auto flex max-w-6xl flex-col gap-12 px-6 py-16 md:py-24">
-        <header className="grid gap-10 md:grid-cols-[1.1fr_1fr] md:items-center">
-          <div className="space-y-6">
-            <div className="space-y-2">
-              <p className="text-xs uppercase tracking-[0.55em] text-zinc-400">Pianist</p>
-              <h1 className="text-4xl font-semibold leading-tight sm:text-5xl">Pavel Kuznetsov</h1>
-              <p className="text-lg text-zinc-200">Pianist</p>
-            </div>
+      <main className="relative z-10">
+        <section className="relative w-full overflow-hidden">
+          <div className="relative w-full min-h-screen md:min-h-[140vh]">
+            <Image
+              src="/pavel-main.jpg"
+              alt="Pavel Kuznetsov portrait"
+              fill
+              priority
+              className="object-contain"
+            />
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_25%,rgba(255,255,255,0.08),transparent_45%),radial-gradient(circle_at_80%_70%,rgba(255,255,255,0.06),transparent_50%)]" />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/45 to-black/80" />
 
-            <div className="flex flex-wrap items-center gap-3">
-              {languages.map((lang) => {
-                const activeBtn = lang.code === active;
-                return (
-                  <button
-                    key={lang.code}
-                    type="button"
-                    onClick={() => setActive(lang.code)}
-                    aria-pressed={activeBtn}
-                    className={`rounded-full border px-4 py-2 text-xs uppercase tracking-[0.3em] transition ${
-                      activeBtn
-                        ? "border-white bg-white text-black shadow-[0_10px_40px_-30px_rgba(255,255,255,0.9)]"
-                        : "border-white/40 text-white hover:border-white hover:bg-white/10"
-                    }`}
-                  >
-                    {lang.code}
-                  </button>
-                );
-              })}
-            </div>
+            <div className="relative z-10 flex h-full flex-col justify-between px-6 py-10">
+              <div className="flex items-center justify-between gap-4">
+                <div className="space-y-2">
+                  <p className="text-xs uppercase tracking-[0.55em] text-zinc-300">Pianist</p>
+                  <h1 className="text-4xl font-semibold leading-tight sm:text-5xl">Pavel Kuznetsov</h1>
+                  <p className="text-lg text-zinc-200">Pianist & Composer</p>
+                </div>
+                <div className="flex flex-wrap items-center gap-3">
+                  {languages.map((lang) => {
+                    const activeBtn = lang.code === active;
+                    return (
+                      <button
+                        key={lang.code}
+                        type="button"
+                        onClick={() => setActive(lang.code)}
+                        aria-pressed={activeBtn}
+                        className={`rounded-full border px-4 py-2 text-xs uppercase tracking-[0.3em] transition ${
+                          activeBtn
+                            ? "border-white bg-white text-black shadow-[0_10px_40px_-30px_rgba(255,255,255,0.9)]"
+                            : "border-white/40 text-white hover:border-white hover:bg-white/10"
+                        }`}
+                      >
+                        {lang.code}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
 
-            <div className="rounded-2xl border border-white/15 bg-white/5 p-6 shadow-[0_24px_60px_-36px_rgba(0,0,0,0.9)] backdrop-blur">
-              <p className="text-sm uppercase tracking-[0.35em] text-zinc-300">Biography</p>
-              <div className="mt-4 space-y-4 text-base leading-relaxed text-zinc-100">
-                {paragraphs.map((para) => (
-                  <p key={para}>{para}</p>
-                ))}
+              <div className="grid gap-8 md:grid-cols-[minmax(280px,340px)_minmax(320px,1fr)] items-end pb-8">
+                <div className="space-y-4">
+                  <p className="text-sm uppercase tracking-[0.35em] text-zinc-300">Performance</p>
+                  <p className="text-lg text-zinc-100">
+                    Solo, chamber music, ballet collaborations and original compositions.
+                  </p>
+                </div>
+                <div className="rounded-2xl border border-white/15 bg-white/5 p-6 shadow-[0_24px_60px_-36px_rgba(0,0,0,0.9)] backdrop-blur">
+                  <p className="text-sm uppercase tracking-[0.35em] text-zinc-300">Biography</p>
+                  <div className="mt-4 space-y-4 text-base leading-relaxed text-zinc-100">
+                    {paragraphs.map((para) => (
+                      <p key={para}>{para}</p>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-
-          <div className="relative">
-            <div className="absolute inset-4 rounded-3xl border border-white/20 blur" />
-            <div className="relative overflow-hidden rounded-3xl border border-white/25 bg-white/5 shadow-[0_30px_80px_-50px_rgba(0,0,0,0.9)]">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.12),transparent_38%),radial-gradient(circle_at_80%_0,rgba(255,255,255,0.08),transparent_30%)]" />
-              <Image
-                src="/pavel-portrait.jpg"
-                alt="Pavel Kuznetsov portrait"
-                width={960}
-                height={960}
-                className="relative h-full w-full object-cover"
-                priority
-              />
-            </div>
-          </div>
-        </header>
+        </section>
       </main>
     </div>
   );
