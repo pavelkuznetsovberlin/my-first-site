@@ -24,6 +24,20 @@ const composerBio: Record<LanguageCode, string[]> = {
   ],
 };
 
+const streamingLinks = [
+  { label: "Apple Music", href: "https://music.apple.com/de/artist/pavel-kuznetsov/517103521" },
+  { label: "Spotify", href: "https://open.spotify.com/artist/2ymvYOtD6YEAGs8DouERyh?si=M3cvt-a-TTSOj-R9EaNHRg" },
+  { label: "YouTube Music", href: "https://music.youtube.com/channel/UCkLsGBKqaPFVmAQDtG9R1vw?si=gbs8YepllMuOVZvg" },
+  { label: "Amazon Music", href: "https://music.amazon.de/artists/B007S0JZVU/pavel-kuznetsov" },
+  { label: "Deezer", href: "https://link.deezer.com/s/31LfbzKKnd2ZJvfEem0iR" },
+];
+
+const streamingCaption: Record<LanguageCode, string> = {
+  EN: "Listen on every platform:",
+  DE: "Auf allen Plattformen hören:",
+  RU: "Слушать на всех площадках:",
+};
+
 const languages: { code: LanguageCode; label: string }[] = [
   { code: "EN", label: "English" },
   { code: "DE", label: "Deutsch" },
@@ -102,6 +116,20 @@ export default function ComposerPage() {
                 <p className="text-xs uppercase tracking-[0.55em] text-zinc-300">Composer</p>
                 <h1 className="text-4xl font-semibold leading-tight sm:text-5xl">Pavel Kuznetsov</h1>
                 <p className="text-lg text-zinc-200">Pianist & Composer</p>
+                <p className="mt-6 text-sm text-zinc-200">{streamingCaption[active]}</p>
+                <div className="mt-3 flex flex-wrap gap-3">
+                  {streamingLinks.map((link) => (
+                    <a
+                      key={link.href}
+                      href={link.href}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="rounded-full border border-white/20 bg-white/5 px-4 py-2 text-sm text-white transition hover:border-white/60 hover:bg-white/15"
+                    >
+                      {link.label}
+                    </a>
+                  ))}
+                </div>
               </div>
               <div className="flex flex-wrap items-center gap-3 pt-24">
                 {languages.map((lang) => {
