@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { FormEvent, useEffect, useMemo, useState } from "react";
+import { FormEvent, Suspense, useEffect, useMemo, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 type LanguageCode = "RU" | "EN" | "DE";
@@ -80,7 +80,7 @@ function isLanguageCode(value: string | null): value is LanguageCode {
   return value === "RU" || value === "EN" || value === "DE";
 }
 
-export default function CollaborationProposalPage() {
+function ProposalContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
@@ -247,5 +247,19 @@ export default function CollaborationProposalPage() {
         </form>
       </div>
     </div>
+  );
+}
+
+export default function CollaborationProposalPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center bg-black text-white">
+          Loading...
+        </div>
+      }
+    >
+      <ProposalContent />
+    </Suspense>
   );
 }
