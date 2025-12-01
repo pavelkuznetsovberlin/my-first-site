@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useMemo, useState } from "react";
+import { Suspense, useMemo, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 type LanguageCode = "RU" | "EN" | "DE";
@@ -46,7 +46,7 @@ function isLanguageCode(value: string | null): value is LanguageCode {
   return value === "RU" || value === "EN" || value === "DE";
 }
 
-export default function CollaborationPage() {
+function CollaborationContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
@@ -134,5 +134,19 @@ export default function CollaborationPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function CollaborationPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center bg-black text-white">
+          Loading...
+        </div>
+      }
+    >
+      <CollaborationContent />
+    </Suspense>
   );
 }
