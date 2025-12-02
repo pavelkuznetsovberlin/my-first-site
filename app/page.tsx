@@ -170,7 +170,7 @@ function HomeContent() {
               <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_25%,rgba(255,255,255,0.08),transparent_45%),radial-gradient(circle_at_80%_70%,rgba(255,255,255,0.06),transparent_50%)]" />
               <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/45 to-black/80" />
 
-              <div className="relative z-10 flex h-full flex-col justify-between px-6 py-10">
+              <div className="relative z-10 flex h-full flex-col justify-between px-6 pt-16 pb-10 md:pt-24 md:pb-12">
                 <div className="flex items-start justify-between gap-4">
                   <div className="space-y-2">
                     <h1 className="text-3xl font-semibold leading-tight sm:text-4xl md:text-5xl">Pavel Kuznetsov</h1>

@@ -79,7 +79,7 @@ export default function RapperClient() {
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_25%,rgba(68,255,213,0.22),transparent_45%),radial-gradient(circle_at_80%_70%,rgba(68,255,213,0.2),transparent_50%)]" />
           <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/35 to-black/80" />
 
-          <div className="relative z-10 flex h-full flex-col justify-between px-6 py-8">
+          <div className="relative z-10 flex h-full flex-col justify-between px-6 pt-16 pb-10 md:pt-24 md:pb-12">
             <div className="mb-4 max-w-4xl space-y-4">
               <h1 className='font-["Snell_Roundhand",cursive] text-3xl font-semibold italic leading-tight drop-shadow-[0_12px_45px_rgba(0,0,0,0.65)] sm:text-4xl md:text-6xl'>
                 {heading}
