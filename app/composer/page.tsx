@@ -123,7 +123,6 @@ export default function ComposerPage() {
           <div className="relative z-10 flex h-full flex-col justify-between px-6 py-10">
             <div className="flex items-start justify-between gap-4">
               <div className="space-y-2">
-                <p className="text-xs uppercase tracking-[0.55em] text-zinc-300">{copy.role}</p>
                 <h1 className="text-3xl font-semibold leading-tight sm:text-4xl md:text-5xl">Pavel Kuznetsov</h1>
                 <p className="text-base text-zinc-200 sm:text-lg">{copy.tagline}</p>
                 <p className="mt-6 text-sm text-zinc-200">{streamingCaption[active]}</p>

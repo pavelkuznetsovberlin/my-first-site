@@ -159,7 +159,7 @@ function HomeContent() {
       <main className="relative z-10">
         <section className="relative w-full overflow-hidden">
           <MatrixReveal active={heroVisible} variant="full">
-            <div className="relative w-full min-h-screen md:min-h-[140vh]">
+              <div className="relative w-full min-h-screen md:min-h-[140vh]">
               <Image
                 src="/pavel-main.jpg"
                 alt="Pavel Kuznetsov portrait"
@@ -173,7 +173,6 @@ function HomeContent() {
               <div className="relative z-10 flex h-full flex-col justify-between px-6 py-10">
                 <div className="flex items-start justify-between gap-4">
                   <div className="space-y-2">
-                    <p className="text-xs uppercase tracking-[0.55em] text-zinc-300">{copy.role}</p>
                     <h1 className="text-3xl font-semibold leading-tight sm:text-4xl md:text-5xl">Pavel Kuznetsov</h1>
                     <p className="text-base text-zinc-200 sm:text-lg">{copy.tagline}</p>
                   </div>
