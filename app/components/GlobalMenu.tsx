@@ -79,7 +79,7 @@ export default function GlobalMenu({ activeLang }: GlobalMenuProps) {
         aria-expanded={menuOpen}
         aria-controls="pavel-menu"
         aria-label={menuLabel}
-        className="fixed left-1/2 top-6 z-30 flex h-20 w-36 -translate-x-1/2 items-center justify-center overflow-hidden rounded-2xl border border-white/40 bg-white/5 shadow-[0_18px_48px_-22px_rgba(0,0,0,0.8),0_0_0_1px_rgba(255,255,255,0.15)] backdrop-blur transition hover:-translate-y-0.5 hover:border-white/70 hover:bg-white/10 hover:shadow-[0_24px_70px_-30px_rgba(0,0,0,0.9),0_0_0_1px_rgba(255,255,255,0.3)]"
+        className="fixed left-4 top-4 z-30 flex h-14 w-28 items-center justify-center overflow-hidden rounded-2xl border border-white/40 bg-white/5 shadow-[0_18px_48px_-22px_rgba(0,0,0,0.8),0_0_0_1px_rgba(255,255,255,0.15)] backdrop-blur transition hover:-translate-y-0.5 hover:border-white/70 hover:bg-white/10 hover:shadow-[0_24px_70px_-30px_rgba(0,0,0,0.9),0_0_0_1px_rgba(255,255,255,0.3)] md:left-1/2 md:top-6 md:h-20 md:w-36 md:-translate-x-1/2"
       >
         <span className="sr-only">{menuLabel}</span>
         <div className="relative h-full w-full">

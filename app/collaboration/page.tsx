@@ -106,7 +106,7 @@ function CollaborationContent() {
           <div className="inline-flex rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs uppercase tracking-[0.4em] text-zinc-200 shadow-[0_12px_50px_-40px_rgba(255,255,255,0.9)]">
             {copy.title}
           </div>
-          <h1 className="text-4xl font-semibold leading-tight sm:text-5xl">{copy.subtitle}</h1>
+          <h1 className="text-3xl font-semibold leading-tight sm:text-4xl md:text-5xl">{copy.subtitle}</h1>
           <p className="text-lg text-zinc-200">{copy.note}</p>
           <div className="flex justify-center">
             <a

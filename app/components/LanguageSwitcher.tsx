@@ -17,7 +17,9 @@ const languages: { code: LanguageCode; label: string }[] = [
 
 export default function LanguageSwitcher({ active, onChange, className }: Props) {
   return (
-    <div className={`fixed right-6 top-6 z-30 flex flex-wrap justify-end gap-3 ${className ?? ""}`}>
+    <div
+      className={`fixed right-4 top-4 z-30 flex max-w-[calc(100vw-120px)] flex-wrap justify-end gap-2 md:right-6 md:top-6 md:gap-3 ${className ?? ""}`}
+    >
       {languages.map((lang) => {
         const activeBtn = lang.code === active;
         return (
@@ -26,7 +28,7 @@ export default function LanguageSwitcher({ active, onChange, className }: Props)
             type="button"
             onClick={() => onChange(lang.code)}
             aria-pressed={activeBtn}
-            className={`rounded-full border px-4 py-2 text-xs uppercase tracking-[0.3em] transition ${
+            className={`rounded-full border px-3 py-1.5 text-[10px] uppercase tracking-[0.3em] transition md:px-4 md:py-2 md:text-xs ${
               activeBtn
                 ? "border-white bg-white text-black shadow-[0_10px_40px_-30px_rgba(255,255,255,0.9)]"
                 : "border-white/40 text-white hover:border-white hover:bg-white/10"

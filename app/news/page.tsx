@@ -125,8 +125,8 @@ function NewsContent() {
               <div className="absolute -left-10 bottom-0 h-32 w-32 rounded-full bg-cyan-300/10 blur-3xl" />
               <div className="relative space-y-3">
                 <p className="text-xs uppercase tracking-[0.45em] text-zinc-300">{t.title}</p>
-                <h1 className="text-4xl font-semibold leading-tight sm:text-5xl">{t.subtitle}</h1>
-                <p className="text-lg text-zinc-200">{t.note}</p>
+                <h1 className="text-3xl font-semibold leading-tight sm:text-4xl md:text-5xl">{t.subtitle}</h1>
+                <p className="text-base text-zinc-200 sm:text-lg">{t.note}</p>
               </div>
             </div>
           </MatrixReveal>

@@ -174,15 +174,15 @@ function HomeContent() {
                 <div className="flex items-start justify-between gap-4">
                   <div className="space-y-2">
                     <p className="text-xs uppercase tracking-[0.55em] text-zinc-300">{copy.role}</p>
-                    <h1 className="text-4xl font-semibold leading-tight sm:text-5xl">Pavel Kuznetsov</h1>
-                    <p className="text-lg text-zinc-200">{copy.tagline}</p>
+                    <h1 className="text-3xl font-semibold leading-tight sm:text-4xl md:text-5xl">Pavel Kuznetsov</h1>
+                    <p className="text-base text-zinc-200 sm:text-lg">{copy.tagline}</p>
                   </div>
                 </div>
 
                 <div className="grid gap-8 md:grid-cols-[minmax(280px,340px)_minmax(320px,1fr)] items-end pb-8">
                   <div className="space-y-4">
                     <p className="text-sm uppercase tracking-[0.35em] text-zinc-300">{copy.performance}</p>
-                    <p className="text-lg text-zinc-100">{copy.performanceDesc}</p>
+                    <p className="text-base text-zinc-100 sm:text-lg">{copy.performanceDesc}</p>
                   </div>
                 </div>
               </div>

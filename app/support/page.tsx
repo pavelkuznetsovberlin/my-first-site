@@ -153,7 +153,7 @@ function SupportContent() {
 
       <div className="relative z-10 flex min-h-screen flex-col items-center justify-center px-6 py-12">
         <div className="mx-auto flex w-full max-w-4xl flex-col items-center space-y-4 text-center">
-          <h1 className="text-4xl font-semibold leading-tight sm:text-5xl">{t.subtitle}</h1>
+          <h1 className="text-3xl font-semibold leading-tight sm:text-4xl md:text-5xl">{t.subtitle}</h1>
           <p className="text-lg text-zinc-200">{t.thanks}</p>
         </div>
 
