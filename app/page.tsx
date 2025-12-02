@@ -5,6 +5,7 @@ import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import GlobalMenu from "./components/GlobalMenu";
 import LanguageSwitcher, { LanguageCode } from "./components/LanguageSwitcher";
+import MatrixReveal from "./components/MatrixReveal";
 
 const biography: Record<LanguageCode, string[]> = {
   DE: [
@@ -28,16 +29,58 @@ const biography: Record<LanguageCode, string[]> = {
     "Помимо концертной деятельности Павел сочиняет новую музыку для фортепиано.",
     "«Его пьесы опираются на классическую школу, дополнены позднеромантическими красками и оттенком минимализма — попытка создавать новое для фортепиано, сохраняя традицию.»",
   ],
+  IT: [
+    "Pavel Kuznetsov è nato il 02.10.1992 a Emanjelinsk (Russia). Ha iniziato il pianoforte a sei anni e ha studiato dal 2000 al 2009 alla scuola musicale speciale di Čeljabinsk.",
+    "Dal 2006 ha partecipato regolarmente a concorsi e ha ricevuto diverse borse di studio. Ha proseguito al State Ural Music College di Ekaterinburg (2009–2012) e poi all'Università delle Arti di Berlino (2012–2017). Ha debuttato da solista a quindici anni.",
+    "Dal 2014 tiene concerti regolari a Berlino e si dedica anche alla musica da camera e al jazz. Nel 2019–2021 è stato maestro collaboratore di balletto e pianista ai teatri di Chemnitz. Nella stagione 21/22 ha accompagnato il balletto “Love me or leave me”, nel 22/23 “Winterreise” di Franz Schubert.",
+    "Oltre all'attività concertistica, Pavel compone nuova musica per pianoforte.",
+    "“Le sue opere per pianoforte poggiano sulla scuola classica, arricchita da colori tardo-romantici e un tocco di minimalismo — un tentativo di creare qualcosa di nuovo per lo strumento mantenendo viva la tradizione.”",
+  ],
+};
+
+const homeCopy: Record<
+  LanguageCode,
+  { role: string; tagline: string; performance: string; performanceDesc: string; bioLabel: string }
+> = {
+  EN: {
+    role: "Pianist",
+    tagline: "Pianist & Composer",
+    performance: "Performance",
+    performanceDesc: "Solo, chamber music, ballet collaborations and original compositions.",
+    bioLabel: "Biography",
+  },
+  DE: {
+    role: "Pianist",
+    tagline: "Pianist & Komponist",
+    performance: "Auftritte",
+    performanceDesc: "Solo, Kammermusik, Ballett-Kollaborationen und eigene Kompositionen.",
+    bioLabel: "Biografie",
+  },
+  RU: {
+    role: "Пианист",
+    tagline: "Пианист и композитор",
+    performance: "Выступления",
+    performanceDesc: "Соло, камерная музыка, сотрудничество с балетом и собственные сочинения.",
+    bioLabel: "Биография",
+  },
+  IT: {
+    role: "Pianista",
+    tagline: "Pianista e compositore",
+    performance: "Performance",
+    performanceDesc: "Recital, musica da camera, collaborazioni con balletto e composizioni originali.",
+    bioLabel: "Biografia",
+  },
 };
 
 const footerCopy: Record<LanguageCode, string> = {
   EN: "All rights reserved.",
   DE: "Alle Rechte vorbehalten.",
   RU: "Все права защищены.",
+  IT: "Tutti i diritti riservati.",
 };
 
 function isLanguageCode(value: string | null): value is LanguageCode {
-  return value === "RU" || value === "EN" || value === "DE";
+  return value === "RU" || value === "EN" || value === "DE" || value === "IT";
 }
 
 function HomeContent() {
@@ -52,10 +95,12 @@ function HomeContent() {
 
   const [active, setActive] = useState<LanguageCode>(initialLang);
   const [visibleSections, setVisibleSections] = useState<Record<number, boolean>>({});
+  const [heroVisible, setHeroVisible] = useState(false);
   const sectionRefs = useRef<(HTMLElement | null)[]>([]);
   const paragraphs = biography[active];
   const photos = useMemo(() => ["/pavel-1.jpg", "/pavel-1-rotated.jpg", "/pavel-3.jpg"], []);
   const footerText = footerCopy[active];
+  const copy = homeCopy[active];
 
   useEffect(() => {
     const lang = searchParams.get("lang")?.toUpperCase() ?? null;
@@ -101,6 +146,11 @@ function HomeContent() {
     return () => observer.disconnect();
   }, [bioChunks]);
 
+  useEffect(() => {
+    const timer = setTimeout(() => setHeroVisible(true), 150);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div className="relative min-h-screen overflow-hidden bg-black text-white">
       <GlobalMenu activeLang={active} />
@@ -108,36 +158,36 @@ function HomeContent() {
 
       <main className="relative z-10">
         <section className="relative w-full overflow-hidden">
-          <div className="relative w-full min-h-screen md:min-h-[140vh]">
-            <Image
-              src="/pavel-main.jpg"
-              alt="Pavel Kuznetsov portrait"
-              fill
-              priority
-              className="object-cover"
-            />
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_25%,rgba(255,255,255,0.08),transparent_45%),radial-gradient(circle_at_80%_70%,rgba(255,255,255,0.06),transparent_50%)]" />
-            <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/45 to-black/80" />
+          <MatrixReveal active={heroVisible} variant="full">
+            <div className="relative w-full min-h-screen md:min-h-[140vh]">
+              <Image
+                src="/pavel-main.jpg"
+                alt="Pavel Kuznetsov portrait"
+                fill
+                priority
+                className="object-cover"
+              />
+              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_25%,rgba(255,255,255,0.08),transparent_45%),radial-gradient(circle_at_80%_70%,rgba(255,255,255,0.06),transparent_50%)]" />
+              <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/45 to-black/80" />
 
-            <div className="relative z-10 flex h-full flex-col justify-between px-6 py-10">
-              <div className="flex items-start justify-between gap-4">
-                <div className="space-y-2">
-                  <p className="text-xs uppercase tracking-[0.55em] text-zinc-300">Pianist</p>
-                  <h1 className="text-4xl font-semibold leading-tight sm:text-5xl">Pavel Kuznetsov</h1>
-                  <p className="text-lg text-zinc-200">Pianist & Composer</p>
+              <div className="relative z-10 flex h-full flex-col justify-between px-6 py-10">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="space-y-2">
+                    <p className="text-xs uppercase tracking-[0.55em] text-zinc-300">{copy.role}</p>
+                    <h1 className="text-4xl font-semibold leading-tight sm:text-5xl">Pavel Kuznetsov</h1>
+                    <p className="text-lg text-zinc-200">{copy.tagline}</p>
+                  </div>
                 </div>
-              </div>
 
-              <div className="grid gap-8 md:grid-cols-[minmax(280px,340px)_minmax(320px,1fr)] items-end pb-8">
-                <div className="space-y-4">
-                  <p className="text-sm uppercase tracking-[0.35em] text-zinc-300">Performance</p>
-                  <p className="text-lg text-zinc-100">
-                    Solo, chamber music, ballet collaborations and original compositions.
-                  </p>
+                <div className="grid gap-8 md:grid-cols-[minmax(280px,340px)_minmax(320px,1fr)] items-end pb-8">
+                  <div className="space-y-4">
+                    <p className="text-sm uppercase tracking-[0.35em] text-zinc-300">{copy.performance}</p>
+                    <p className="text-lg text-zinc-100">{copy.performanceDesc}</p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          </MatrixReveal>
         </section>
 
         {bioChunks.map((chunk, index) => {
@@ -154,36 +204,34 @@ function HomeContent() {
               }}
               className="relative w-full overflow-hidden bg-black"
             >
-              <div className="relative w-full min-h-[90vh] md:min-h-[110vh]">
-                <Image
-                  src={photoSrc}
-                  alt={`Pavel Kuznetsov portrait ${index + 1}`}
-                  fill
-                  priority={index === 0}
-                  className="object-cover"
-                />
-                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_25%,rgba(255,255,255,0.08),transparent_45%),radial-gradient(circle_at_80%_70%,rgba(255,255,255,0.06),transparent_50%)]" />
-                <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/35 to-black/80" />
+              <MatrixReveal active={!!visible} variant="full">
+                <div className="relative w-full min-h-[90vh] md:min-h-[110vh]">
+                  <Image
+                    src={photoSrc}
+                    alt={`Pavel Kuznetsov portrait ${index + 1}`}
+                    fill
+                    priority={index === 0}
+                    className="object-cover"
+                  />
+                  <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_25%,rgba(255,255,255,0.08),transparent_45%),radial-gradient(circle_at_80%_70%,rgba(255,255,255,0.06),transparent_50%)]" />
+                  <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/35 to-black/80" />
 
-                <div
-                  className={`absolute bottom-10 left-6 right-6 md:bottom-16 md:left-12 md:right-12 lg:max-w-3xl ${
-                    alignRight ? "md:ml-auto" : ""
-                  }`}
-                >
                   <div
-                    className={`rounded-2xl border border-white/15 bg-white/5 p-6 shadow-[0_24px_60px_-36px_rgba(0,0,0,0.9)] backdrop-blur transition duration-700 ease-out ${
-                      visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-6 opacity-0"
+                    className={`absolute bottom-10 left-6 right-6 md:bottom-16 md:left-12 md:right-12 lg:max-w-3xl ${
+                      alignRight ? "md:ml-auto" : ""
                     }`}
                   >
-                    <p className="text-sm uppercase tracking-[0.35em] text-zinc-300">Biography</p>
-                    <div className="mt-4 space-y-4 text-base leading-relaxed text-zinc-100">
-                      {chunk.map((para) => (
-                        <p key={para}>{para}</p>
-                      ))}
+                    <div className="rounded-2xl border border-white/15 bg-white/5 p-6 shadow-[0_24px_60px_-36px_rgba(0,0,0,0.9)] backdrop-blur">
+                      <p className="text-sm uppercase tracking-[0.35em] text-zinc-300">{copy.bioLabel}</p>
+                      <div className="mt-4 space-y-4 text-base leading-relaxed text-zinc-100">
+                        {chunk.map((para) => (
+                          <p key={para}>{para}</p>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              </MatrixReveal>
             </section>
           );
         })}

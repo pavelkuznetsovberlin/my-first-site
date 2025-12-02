@@ -1,6 +1,6 @@
 "use client";
 
-export type LanguageCode = "RU" | "EN" | "DE";
+export type LanguageCode = "RU" | "EN" | "DE" | "IT";
 
 type Props = {
   active: LanguageCode;
@@ -12,6 +12,7 @@ const languages: { code: LanguageCode; label: string }[] = [
   { code: "EN", label: "English" },
   { code: "DE", label: "Deutsch" },
   { code: "RU", label: "Русский" },
+  { code: "IT", label: "Italiano" },
 ];
 
 export default function LanguageSwitcher({ active, onChange, className }: Props) {

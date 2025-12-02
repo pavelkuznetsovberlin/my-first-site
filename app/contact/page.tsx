@@ -57,6 +57,19 @@ const copy: Record<
     thanks: "Откроется ваш почтовый клиент с заполненными полями.",
     subject: "Сообщение для Павла Кузнецова",
   },
+  IT: {
+    title: "Contatti",
+    subtitle: "Scrivi un breve messaggio — Pavel lo leggerà personalmente.",
+    fields: { name: "Nome", email: "Email", message: "Messaggio" },
+    placeholder: {
+      name: "Il tuo nome / organizzazione",
+      email: "tu@example.com",
+      message: "Di cosa vorresti parlare?",
+    },
+    button: "Invia a Pavel",
+    thanks: "Apriremo la tua app email con i dati già compilati.",
+    subject: "Messaggio per Pavel Kuznetsov",
+  },
 };
 
 const backgrounds = [
@@ -72,7 +85,7 @@ const backgrounds = [
 ];
 
 function isLanguageCode(value: string | null): value is LanguageCode {
-  return value === "RU" || value === "EN" || value === "DE";
+  return value === "RU" || value === "EN" || value === "DE" || value === "IT";
 }
 
 function ContactContent() {

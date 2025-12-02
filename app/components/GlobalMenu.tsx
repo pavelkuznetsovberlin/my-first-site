@@ -2,13 +2,14 @@
 
 import { useMemo, useState } from "react";
 
-type LanguageCode = "RU" | "EN" | "DE";
+type LanguageCode = "RU" | "EN" | "DE" | "IT";
 type MenuEntry = { label: string; href?: string };
 
 const menuItems: Record<LanguageCode, MenuEntry[]> = {
   DE: [
     { label: "Pianist", href: "/" },
     { label: "Komponist", href: "/composer" },
+    { label: "Neuigkeiten", href: "/news" },
     { label: "pavels/music", href: "https://www.pavelsmusic.com" },
     { label: "Aqqquamarin", href: "/rapper" },
     { label: "Zusammenarbeit", href: "/collaboration" },
@@ -18,6 +19,7 @@ const menuItems: Record<LanguageCode, MenuEntry[]> = {
   EN: [
     { label: "Pianist", href: "/" },
     { label: "Composer", href: "/composer" },
+    { label: "News", href: "/news" },
     { label: "pavels/music", href: "https://www.pavelsmusic.com" },
     { label: "Aqqquamarin", href: "/rapper" },
     { label: "Collaboration", href: "/collaboration" },
@@ -27,12 +29,30 @@ const menuItems: Record<LanguageCode, MenuEntry[]> = {
   RU: [
     { label: "Пианист", href: "/" },
     { label: "Композитор", href: "/composer" },
+    { label: "Новости", href: "/news" },
     { label: "pavels/music", href: "https://www.pavelsmusic.com" },
     { label: "Aqqquamarin", href: "/rapper" },
     { label: "Сотрудничество", href: "/collaboration" },
     { label: "Связаться", href: "/contact" },
     { label: "Поддержка", href: "/support" },
   ],
+  IT: [
+    { label: "Pianista", href: "/" },
+    { label: "Compositore", href: "/composer" },
+    { label: "Notizie", href: "/news" },
+    { label: "pavels/music", href: "https://www.pavelsmusic.com" },
+    { label: "Aqqquamarin", href: "/rapper" },
+    { label: "Collaborazione", href: "/collaboration" },
+    { label: "Contatto", href: "/contact" },
+    { label: "Supporto", href: "/support" },
+  ],
+};
+
+const menuLabels: Record<LanguageCode, string> = {
+  EN: "Menu",
+  DE: "Menü",
+  RU: "Меню",
+  IT: "Menù",
 };
 
 type GlobalMenuProps = {
@@ -44,6 +64,7 @@ export default function GlobalMenu({ activeLang }: GlobalMenuProps) {
   const menu = menuItems[activeLang];
 
   const langParam = useMemo(() => activeLang.toLowerCase(), [activeLang]);
+  const menuLabel = menuLabels[activeLang];
   const hrefWithLang = (href?: string) => {
     if (!href) return undefined;
     if (!href.startsWith("/")) return href;
@@ -57,15 +78,20 @@ export default function GlobalMenu({ activeLang }: GlobalMenuProps) {
         onClick={() => setMenuOpen((prev) => !prev)}
         aria-expanded={menuOpen}
         aria-controls="pavel-menu"
-        className="fixed left-1/2 top-6 z-30 flex h-20 w-32 -translate-x-1/2 items-center justify-center overflow-hidden rounded-xl shadow-[0_12px_30px_-18px_rgba(0,0,0,0.6)] transition hover:shadow-[0_16px_40px_-20px_rgba(0,0,0,0.7)]"
+        aria-label={menuLabel}
+        className="fixed left-1/2 top-6 z-30 flex h-20 w-36 -translate-x-1/2 items-center justify-center overflow-hidden rounded-2xl border border-white/40 bg-white/5 shadow-[0_18px_48px_-22px_rgba(0,0,0,0.8),0_0_0_1px_rgba(255,255,255,0.15)] backdrop-blur transition hover:-translate-y-0.5 hover:border-white/70 hover:bg-white/10 hover:shadow-[0_24px_70px_-30px_rgba(0,0,0,0.9),0_0_0_1px_rgba(255,255,255,0.3)]"
       >
-        <span className="sr-only">Toggle menu</span>
+        <span className="sr-only">{menuLabel}</span>
         <div className="relative h-full w-full">
+          <div className="pointer-events-none absolute inset-0">
+            <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-emerald-300/30 via-white/25 to-emerald-200/25 opacity-60 blur" />
+            <div className="absolute inset-px rounded-2xl border border-white/25" />
+          </div>
           <div className="absolute inset-x-3 bottom-8 grid h-9 grid-cols-10 gap-1.5">
             {Array.from({ length: 10 }).map((_, idx) => (
               <div
                 key={idx}
-                className="relative overflow-hidden rounded bg-white/90 text-black shadow-[inset_0_-2px_4px_rgba(0,0,0,0.35)]"
+                className="relative overflow-hidden rounded bg-white/90 text-black shadow-[inset_0_-2px_4px_rgba(0,0,0,0.35)] transition duration-500"
               >
                 <div className="absolute inset-x-0 top-0 h-[35%] bg-white/65" />
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/10" />
@@ -85,7 +111,7 @@ export default function GlobalMenu({ activeLang }: GlobalMenuProps) {
             </div>
           </div>
           <div className="absolute inset-x-0 -bottom-1 flex justify-center">
-            <span className="text-sm uppercase tracking-[0.4em] text-white/85">Menu</span>
+            <span className="text-sm uppercase tracking-[0.4em] text-white/85">{menuLabel}</span>
           </div>
         </div>
       </button>

@@ -53,6 +53,18 @@ const copy: Record<
     thanks: "Откроется почтовый клиент с заполненными полями.",
     subject: "Поддержка Павла Кузнецова",
   },
+  IT: {
+    subtitle: "Se vuoi sostenere la musica di Pavel, scrivi — ti invierà i dati di pagamento.",
+    fields: { name: "Nome", email: "Email o contatti", note: "Messaggio" },
+    placeholder: {
+      name: "Il tuo nome / organizzazione",
+      email: "tu@example.com o messenger",
+      note: "Importo / valuta / metodo preferito (PayPal, banca, ecc.)",
+    },
+    button: "Invia email di supporto",
+    thanks: "La tua app email si aprirà con i dati già compilati.",
+    subject: "Supporto per Pavel Kuznetsov",
+  },
 };
 
 const backgrounds = [
@@ -68,7 +80,7 @@ const backgrounds = [
 ];
 
 function isLanguageCode(value: string | null): value is LanguageCode {
-  return value === "RU" || value === "EN" || value === "DE";
+  return value === "RU" || value === "EN" || value === "DE" || value === "IT";
 }
 
 function SupportContent() {

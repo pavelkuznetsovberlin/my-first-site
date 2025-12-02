@@ -28,6 +28,12 @@ const languageCopy: Record<
     button: "Предложить проект/концерт",
     note: "Опишите идею кратко — Павел свяжется с вами.",
   },
+  IT: {
+    title: "Collaborazione",
+    subtitle: "Commissioni, concerti, idee crossover — costruiamo qualcosa insieme.",
+    button: "Proponi progetto/concerto",
+    note: "Scrivi un'idea breve: Pavel ti ricontatterà.",
+  },
 };
 
 const backgrounds = [
@@ -43,7 +49,7 @@ const backgrounds = [
 ];
 
 function isLanguageCode(value: string | null): value is LanguageCode {
-  return value === "RU" || value === "EN" || value === "DE";
+  return value === "RU" || value === "EN" || value === "DE" || value === "IT";
 }
 
 function CollaborationContent() {

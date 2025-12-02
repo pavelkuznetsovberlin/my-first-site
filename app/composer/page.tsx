@@ -22,6 +22,11 @@ const composerBio: Record<LanguageCode, string[]> = {
     "Часто пьесы рождаются из импровизации: мотив, неожиданный аккорд, затем выстраивается драматургия.",
     "Сейчас Павел работает над циклом миниатюр о диалоге танца и фортепиано.",
   ],
+  IT: [
+    "Pavel Kuznetsov compone musica per pianoforte radicata nella formazione classica, colorata da armonie tardo-romantiche e un tocco di minimalismo.",
+    "Molti brani nascono dall'improvvisazione: un motivo, un accordo sorprendente, poi prende forma un arco narrativo.",
+    "Sta scrivendo un ciclo di miniature che esplora il dialogo tra danza e pianoforte.",
+  ],
 };
 
 const streamingLinks = [
@@ -36,10 +41,18 @@ const streamingCaption: Record<LanguageCode, string> = {
   EN: "Listen on every platform:",
   DE: "Auf allen Plattformen hören:",
   RU: "Слушать на всех площадках:",
+  IT: "Ascolta su tutte le piattaforme:",
+};
+
+const composerCopy: Record<LanguageCode, { role: string; tagline: string; card: string }> = {
+  EN: { role: "Composer", tagline: "Pianist & Composer", card: "Composer" },
+  DE: { role: "Komponist", tagline: "Pianist & Komponist", card: "Komponist" },
+  RU: { role: "Композитор", tagline: "Пианист и композитор", card: "Композитор" },
+  IT: { role: "Compositore", tagline: "Pianista e compositore", card: "Compositore" },
 };
 
 function isLanguageCode(value: string | null): value is LanguageCode {
-  return value === "RU" || value === "EN" || value === "DE";
+  return value === "RU" || value === "EN" || value === "DE" || value === "IT";
 }
 
 export default function ComposerPage() {
@@ -58,6 +71,7 @@ export default function ComposerPage() {
 
   const paragraphs = composerBio[active];
   const photos = useMemo(() => ["/composer-1.jpg", "/composer-2.jpg", "/composer-3.jpg"], []);
+  const copy = composerCopy[active];
 
   useEffect(() => {
     const lang = searchParams.get("lang")?.toUpperCase() ?? null;
@@ -109,9 +123,9 @@ export default function ComposerPage() {
           <div className="relative z-10 flex h-full flex-col justify-between px-6 py-10">
             <div className="flex items-start justify-between gap-4">
               <div className="space-y-2">
-                <p className="text-xs uppercase tracking-[0.55em] text-zinc-300">Composer</p>
+                <p className="text-xs uppercase tracking-[0.55em] text-zinc-300">{copy.role}</p>
                 <h1 className="text-4xl font-semibold leading-tight sm:text-5xl">Pavel Kuznetsov</h1>
-                <p className="text-lg text-zinc-200">Pianist & Composer</p>
+                <p className="text-lg text-zinc-200">{copy.tagline}</p>
                 <p className="mt-6 text-sm text-zinc-200">{streamingCaption[active]}</p>
                 <div className="mt-3 flex flex-wrap gap-3">
                   {streamingLinks.map((link) => (
@@ -167,7 +181,7 @@ export default function ComposerPage() {
                     visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-6 opacity-0"
                   }`}
                 >
-                  <p className="text-sm uppercase tracking-[0.35em] text-zinc-300">Composer</p>
+                  <p className="text-sm uppercase tracking-[0.35em] text-zinc-300">{copy.card}</p>
                   <p className="mt-4 text-base leading-relaxed text-zinc-100">{para}</p>
                 </div>
               </div>

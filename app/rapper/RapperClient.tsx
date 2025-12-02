@@ -11,12 +11,14 @@ const headings: Record<LanguageCode, string> = {
   DE: "Aqqquamarin, Hobby-Rapper für echte Kenner.",
   EN: "Aqqquamarin, hobby rapper for true connoisseurs.",
   RU: "Aqqquamarin, хобби-рэпер для настоящих ценителей.",
+  IT: "Aqqquamarin, rapper per veri intenditori.",
 };
 
 const streamingTitle: Record<LanguageCode, string> = {
   DE: "Jetzt streamen",
   EN: "Listen on streaming",
   RU: "Слушать на платформах",
+  IT: "Ascolta sulle piattaforme",
 };
 
 const streamingLinks: StreamingLink[] = [
@@ -28,7 +30,7 @@ const streamingLinks: StreamingLink[] = [
 ];
 
 function isLanguageCode(value: string | null): value is LanguageCode {
-  return value === "RU" || value === "EN" || value === "DE";
+  return value === "RU" || value === "EN" || value === "DE" || value === "IT";
 }
 
 export default function RapperClient() {
