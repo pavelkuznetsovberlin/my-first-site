@@ -3,8 +3,8 @@
 import Image from "next/image";
 import { Suspense, useMemo, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-
-type LanguageCode = "RU" | "EN" | "DE";
+import GlobalMenu from "../components/GlobalMenu";
+import LanguageSwitcher, { LanguageCode } from "../components/LanguageSwitcher";
 
 const languageCopy: Record<
   LanguageCode,
@@ -69,6 +69,8 @@ function CollaborationContent() {
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-black text-white">
+      <GlobalMenu activeLang={active} />
+      <LanguageSwitcher active={active} onChange={handleLanguageChange} />
       <div className="pointer-events-none absolute inset-0 opacity-70">
         <div className="absolute inset-0 bg-gradient-to-b from-black via-black/30 to-black" />
         <div className="absolute inset-0 grid grid-cols-3 grid-rows-3 gap-1">
@@ -94,27 +96,6 @@ function CollaborationContent() {
       </div>
 
       <div className="relative z-10 flex min-h-screen flex-col items-center justify-center px-6 py-14 text-center">
-        <div className="mb-6 flex gap-3">
-          {(["EN", "DE", "RU"] as LanguageCode[]).map((lang) => {
-            const activeBtn = lang === active;
-            return (
-              <button
-                key={lang}
-                type="button"
-                onClick={() => handleLanguageChange(lang)}
-                aria-pressed={activeBtn}
-                className={`rounded-full border px-4 py-2 text-xs uppercase tracking-[0.3em] transition ${
-                  activeBtn
-                    ? "border-white bg-white text-black shadow-[0_10px_40px_-30px_rgba(255,255,255,0.9)]"
-                    : "border-white/40 text-white hover:border-white hover:bg-white/10"
-                }`}
-              >
-                {lang}
-              </button>
-            );
-          })}
-        </div>
-
         <div className="mx-auto max-w-3xl space-y-6">
           <div className="inline-flex rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs uppercase tracking-[0.4em] text-zinc-200 shadow-[0_12px_50px_-40px_rgba(255,255,255,0.9)]">
             {copy.title}

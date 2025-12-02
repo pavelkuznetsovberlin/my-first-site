@@ -3,8 +3,8 @@
 import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-
-type LanguageCode = "RU" | "EN" | "DE";
+import GlobalMenu from "../components/GlobalMenu";
+import LanguageSwitcher, { LanguageCode } from "../components/LanguageSwitcher";
 
 const composerBio: Record<LanguageCode, string[]> = {
   DE: [
@@ -37,12 +37,6 @@ const streamingCaption: Record<LanguageCode, string> = {
   DE: "Auf allen Plattformen hören:",
   RU: "Слушать на всех площадках:",
 };
-
-const languages: { code: LanguageCode; label: string }[] = [
-  { code: "EN", label: "English" },
-  { code: "DE", label: "Deutsch" },
-  { code: "RU", label: "Русский" },
-];
 
 function isLanguageCode(value: string | null): value is LanguageCode {
   return value === "RU" || value === "EN" || value === "DE";
@@ -99,6 +93,8 @@ export default function ComposerPage() {
 
   return (
     <div className="relative min-h-screen bg-black text-white">
+      <GlobalMenu activeLang={active} />
+      <LanguageSwitcher active={active} onChange={handleLanguageChange} />
       <section className="relative w-full overflow-hidden">
         <div className="relative w-full min-h-screen md:min-h-[140vh]">
           <Image
@@ -130,26 +126,6 @@ export default function ComposerPage() {
                     </a>
                   ))}
                 </div>
-              </div>
-              <div className="flex flex-wrap items-center gap-3 pt-24">
-                {languages.map((lang) => {
-                  const activeBtn = lang.code === active;
-                  return (
-                    <button
-                      key={lang.code}
-                      type="button"
-                      onClick={() => handleLanguageChange(lang.code)}
-                      aria-pressed={activeBtn}
-                      className={`rounded-full border px-4 py-2 text-xs uppercase tracking-[0.3em] transition ${
-                        activeBtn
-                          ? "border-white bg-white text-black shadow-[0_10px_40px_-30px_rgba(255,255,255,0.9)]"
-                          : "border-white/40 text-white hover:border-white hover:bg-white/10"
-                      }`}
-                    >
-                      {lang.code}
-                    </button>
-                  );
-                })}
               </div>
             </div>
           </div>

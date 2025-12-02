@@ -3,8 +3,8 @@
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-
-type LanguageCode = "RU" | "EN" | "DE";
+import GlobalMenu from "../components/GlobalMenu";
+import LanguageSwitcher, { LanguageCode } from "../components/LanguageSwitcher";
 type StreamingLink = { label: string; href: string };
 
 const headings: Record<LanguageCode, string> = {
@@ -25,12 +25,6 @@ const streamingLinks: StreamingLink[] = [
   { label: "YouTube Music", href: "https://music.youtube.com/channel/UCrfgRPRjC0drbjrokWxsd9w?si=FOQ1D3v7ta2Rgb_D" },
   { label: "Deezer", href: "https://link.deezer.com/s/31KFec3DjWSGAm3qYZfmA" },
   { label: "Amazon Music", href: "https://music.amazon.de/artists/B0DJWQS9F1/aqqquamarin" },
-];
-
-const languages: { code: LanguageCode; label: string }[] = [
-  { code: "EN", label: "English" },
-  { code: "DE", label: "Deutsch" },
-  { code: "RU", label: "Русский" },
 ];
 
 function isLanguageCode(value: string | null): value is LanguageCode {
@@ -69,6 +63,8 @@ export default function RapperClient() {
 
   return (
     <div className="relative min-h-screen bg-black text-white">
+      <GlobalMenu activeLang={active} />
+      <LanguageSwitcher active={active} onChange={handleLanguageChange} />
       <section className="relative w-full overflow-hidden">
         <div className="relative w-full min-h-screen md:min-h-[135vh]">
           <Image
@@ -82,27 +78,6 @@ export default function RapperClient() {
           <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/35 to-black/80" />
 
           <div className="relative z-10 flex h-full flex-col justify-between px-6 py-8">
-            <div className="flex justify-end gap-3">
-              {languages.map((lang) => {
-                const activeBtn = lang.code === active;
-                return (
-                  <button
-                    key={lang.code}
-                    type="button"
-                    onClick={() => handleLanguageChange(lang.code)}
-                    aria-pressed={activeBtn}
-                    className={`rounded-full border px-3 py-1.5 text-xs uppercase tracking-[0.25em] transition ${
-                      activeBtn
-                        ? "border-white bg-white text-black shadow-[0_10px_30px_-24px_rgba(255,255,255,0.8)]"
-                        : "border-white/40 text-white hover:border-white hover:bg-white/10"
-                    }`}
-                  >
-                    {lang.code}
-                  </button>
-                );
-              })}
-            </div>
-
             <div className="mb-4 max-w-4xl space-y-4">
               <p className="text-xs uppercase tracking-[0.5em] text-zinc-300">Aqqquamarin</p>
               <h1 className='font-["Snell_Roundhand",cursive] text-4xl font-semibold italic leading-tight drop-shadow-[0_12px_45px_rgba(0,0,0,0.65)] sm:text-5xl md:text-6xl'>
