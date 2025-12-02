@@ -79,7 +79,7 @@ export default function GlobalMenu({ activeLang }: GlobalMenuProps) {
         aria-expanded={menuOpen}
         aria-controls="pavel-menu"
         aria-label={menuLabel}
-        className="fixed left-4 top-4 z-30 flex h-14 w-28 items-center justify-center overflow-hidden rounded-2xl border border-white/40 bg-white/5 shadow-[0_18px_48px_-22px_rgba(0,0,0,0.8),0_0_0_1px_rgba(255,255,255,0.15)] backdrop-blur transition hover:-translate-y-0.5 hover:border-white/70 hover:bg-white/10 hover:shadow-[0_24px_70px_-30px_rgba(0,0,0,0.9),0_0_0_1px_rgba(255,255,255,0.3)] md:left-1/2 md:top-6 md:h-20 md:w-36 md:-translate-x-1/2"
+        className="fixed left-4 top-4 z-30 flex h-12 w-24 items-center justify-center overflow-hidden rounded-2xl border border-white/40 bg-white/5 shadow-[0_18px_48px_-22px_rgba(0,0,0,0.8),0_0_0_1px_rgba(255,255,255,0.15)] backdrop-blur transition hover:-translate-y-0.5 hover:border-white/70 hover:bg-white/10 hover:shadow-[0_24px_70px_-30px_rgba(0,0,0,0.9),0_0_0_1px_rgba(255,255,255,0.3)] md:left-1/2 md:top-6 md:h-20 md:w-36 md:-translate-x-1/2"
       >
         <span className="sr-only">{menuLabel}</span>
         <div className="relative h-full w-full">
@@ -87,7 +87,7 @@ export default function GlobalMenu({ activeLang }: GlobalMenuProps) {
             <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-emerald-300/30 via-white/25 to-emerald-200/25 opacity-60 blur" />
             <div className="absolute inset-px rounded-2xl border border-white/25" />
           </div>
-          <div className="absolute inset-x-3 bottom-8 grid h-9 grid-cols-10 gap-1.5">
+          <div className="absolute inset-x-2 bottom-4 grid h-7 grid-cols-10 gap-1 md:inset-x-3 md:bottom-8 md:h-9 md:gap-1.5">
             {Array.from({ length: 10 }).map((_, idx) => (
               <div
                 key={idx}
@@ -99,19 +99,21 @@ export default function GlobalMenu({ activeLang }: GlobalMenuProps) {
             ))}
             <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[45%] bg-gradient-to-t from-black/25 to-transparent" />
           </div>
-          <div className="absolute inset-x-0 top-3 flex justify-center">
-            <div className="flex gap-2">
-              {[18, 22, 14].map((w, idx) => (
+          <div className="absolute inset-x-0 top-2 flex justify-center md:top-3">
+            <div className="flex gap-1.5 md:gap-2">
+              {[16, 20, 12].map((w, idx) => (
                 <div
                   key={idx}
                   className="rounded bg-zinc-100/85 shadow-[inset_0_-2px_4px_rgba(0,0,0,0.35)]"
-                  style={{ width: `${w}px`, height: "24px" }}
+                  style={{ width: `${w}px`, height: "20px" }}
                 />
               ))}
             </div>
           </div>
           <div className="absolute inset-x-0 -bottom-1 flex justify-center">
-            <span className="text-sm uppercase tracking-[0.4em] text-white/85">{menuLabel}</span>
+            <span className="text-[11px] uppercase tracking-[0.35em] text-white/85 md:text-sm md:tracking-[0.4em]">
+              {menuLabel}
+            </span>
           </div>
         </div>
       </button>
