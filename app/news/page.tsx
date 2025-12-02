@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useMemo, useState, useEffect } from "react";
+import { Suspense, useMemo, useState, useEffect } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import GlobalMenu from "../components/GlobalMenu";
 import LanguageSwitcher, { LanguageCode } from "../components/LanguageSwitcher";
@@ -73,7 +73,7 @@ function isLanguageCode(value: string | null): value is LanguageCode {
   return value === "RU" || value === "EN" || value === "DE" || value === "IT";
 }
 
-export default function NewsPage() {
+function NewsContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
@@ -176,5 +176,19 @@ export default function NewsPage() {
         </div>
       </main>
     </div>
+  );
+}
+
+export default function NewsPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center bg-black text-white">
+          Loading...
+        </div>
+      }
+    >
+      <NewsContent />
+    </Suspense>
   );
 }
