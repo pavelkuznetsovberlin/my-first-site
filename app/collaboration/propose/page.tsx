@@ -62,6 +62,21 @@ const copy: Record<
     mailSubject: "Проект для Павла",
     thanks: "Откроется ваш почтовый клиент с заполненными полями.",
   },
+  IT: {
+    title: "Proposta di progetto / concerto",
+    subtitle: "Racconta a Pavel la tua idea — programma, venue, collaboratori e tempi.",
+    columns: {
+      project: "Dettagli del progetto",
+      projectHint: "Repertorio, formato, data, città/venue",
+      special: "Richieste speciali",
+      specialHint: "Rider tecnico, idee di scena, collaboratori",
+      contact: "Contatto",
+      contactHint: "Nome, email, telefono o messenger",
+    },
+    button: "Invia via email",
+    mailSubject: "Idea di progetto per Pavel",
+    thanks: "Apriremo il tuo client email con i dati compilati.",
+  },
 };
 
 const backgrounds = [
@@ -77,7 +92,7 @@ const backgrounds = [
 ];
 
 function isLanguageCode(value: string | null): value is LanguageCode {
-  return value === "RU" || value === "EN" || value === "DE";
+  return value === "RU" || value === "EN" || value === "DE" || value === "IT";
 }
 
 function ProposalContent() {
